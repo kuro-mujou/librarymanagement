@@ -1,0 +1,55 @@
+create database librarytesting
+go 
+use librarytesting
+go
+create table book(
+    bookID int primary key,
+	nameBook nvarchar(255),
+	description nvarchar(255),
+	type nvarchar(255),
+	author nvarchar(255),
+	quantity int ,
+	yearRelease int
+)
+
+create table reader(
+    userID int primary key,
+	name nvarchar(255),
+	phone nvarchar(255),
+	address nvarchar(255),
+	email nvarchar(255),
+	gender nvarchar(255) ,
+	age int,
+        status nvarchar(255)
+)
+
+create table transactions(
+    transactionID int primary key,
+        startDay int,
+        endDay nvarchar(255),
+        quantity nvarchar(255),
+        bookid int FOREIGN KEY REFERENCES book (bookID),
+        userID int FOREIGN KEY REFERENCES reader(userID)
+)
+
+create table Users(
+    libID int primary key,
+	name nvarchar(255),
+	phone nvarchar(255),
+	address nvarchar(255),
+	email nvarchar(255),
+	password nvarchar(255),
+	gender nvarchar(255) 
+ )
+
+ -- 
+insert into book(bookID,nameBook,description,type,writing,quantity,yearRelease)
+    values (1,'book1','description1','type1','author1',10,2000)
+insert into book(bookID,nameBook,description,type,writing,quantity,yearRelease)
+    values (2,'book2','description2','type2','author2',20,2000)
+insert into reader(userID,name,phone,address,email,gender,age,status)
+    values (1,'name1','phone1','address1','email1','gioitinh1',30,'READY')
+insert into reader(userID,name,phone,address,email,gender,age,status)
+    values (2,'name2','phone2','address2','email2','gioitinh2',40,'READY')
+insert into Users(libID,name,phone,address,email,password,gender)
+    values (1,'name1','phone1','address1','email1','123456','gender')
