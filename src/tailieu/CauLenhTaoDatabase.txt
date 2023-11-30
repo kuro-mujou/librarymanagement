@@ -43,9 +43,9 @@ create table Users(
  )
 
  -- 
-insert into book(bookID,nameBook,description,type,writing,quantity,yearRelease)
+insert into book(bookID,nameBook,description,type,author,quantity,yearRelease)
     values (1,'book1','description1','type1','author1',10,2000)
-insert into book(bookID,nameBook,description,type,writing,quantity,yearRelease)
+insert into book(bookID,nameBook,description,type,author,quantity,yearRelease)
     values (2,'book2','description2','type2','author2',20,2000)
 insert into reader(userID,name,phone,address,email,gender,age,status)
     values (1,'name1','phone1','address1','email1','gioitinh1',30,'READY')
