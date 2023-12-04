@@ -9,18 +9,20 @@ public class transactions {
     int quantity;
     int bookID;
     int userID;
+    String transactionstatus;
     
 
     public transactions() {
 
     }
-    public transactions(int transactionId, String startDay, String endDay, int quantity, int bookid, int userID) {
+    public transactions(int transactionId, String startDay, String endDay, int quantity, int bookid, int userID,String transactionstatus) {
         this.transactionID = transactionId;
         this.startDay = startDay;
         this.endDay = endDay;
         this.quantity = quantity;
         this.bookID = bookid;
         this.userID = userID;
+        this.transactionstatus = transactionstatus;
     }
 
     public int getTransactionID() {
@@ -69,5 +71,15 @@ public class transactions {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+    
+    public String getTransactionstatus()
+    {
+        return transactionstatus;
+    }
+
+    public void setTransactionstatus(String transactionstatus)
+    {
+        this.transactionstatus = transactionstatus;
     }
 }

@@ -3,6 +3,7 @@ package UIComponent;
 import UIClass.BookManagement;
 import databaseClass.Sach;
 import databaseClass.SachCRUD;
+import javax.swing.JOptionPane;
 
 public class BookDetail extends javax.swing.JFrame
 {
@@ -22,7 +23,6 @@ public class BookDetail extends javax.swing.JFrame
     private void initUI()
     {
         confirm.setVisible(isEditRequest);
-        textMaSach.setEditable(isEditRequest);
         textTenSach.setEditable(isEditRequest);
         textTheLoai.setEditable(isEditRequest);
         textTacGia.setEditable(isEditRequest);
@@ -86,6 +86,8 @@ public class BookDetail extends javax.swing.JFrame
 
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
         jLabel8.setText("Description");
+
+        textMaSach.setEditable(false);
 
         confirm.setBackground(new java.awt.Color(204, 204, 0));
         confirm.setText("Confirm");
@@ -201,28 +203,24 @@ public class BookDetail extends javax.swing.JFrame
         return b;
     }
 
-    public String gettest()
-    {
-        return textGhiChu.getText();
-    }
-
-    public void settest()
-    {
-        textGhiChu.setText("cmm");
-    }
-
     public Sach getModelId()
     {
-        Sach b = new Sach();
-        b.setBookID(Integer.parseInt(textMaSach.getText()));
-        System.out.println("s" + b.getBookID());
-        b.setNameBook(textTenSach.getText());
-        b.setDescription(textGhiChu.getText());
-        b.setWriting(textTacGia.getText());
-        b.setType(textTheLoai.getText());
-        b.setQuantity(Integer.parseInt(textSoLuong.getText()));
-        b.setYearRelease(Integer.parseInt(textNamXuatBan.getText()));
-        return b;
+        try
+        {
+            Sach b = new Sach();
+            b.setBookID(Integer.parseInt(textMaSach.getText()));
+            b.setNameBook(textTenSach.getText());
+            b.setDescription(textGhiChu.getText());
+            b.setWriting(textTacGia.getText());
+            b.setType(textTheLoai.getText());
+            b.setQuantity(Integer.parseInt(textSoLuong.getText()));
+            b.setYearRelease(Integer.parseInt(textNamXuatBan.getText()));
+            return b;
+        } catch (Exception e)
+        {
+            return null;
+        }
+        
     }
 
     public void setModel(Sach b)
@@ -235,26 +233,36 @@ public class BookDetail extends javax.swing.JFrame
         textTacGia.setText(b.getWriting());
         textTheLoai.setText(b.getType());
     }
+    public void newbook(int id)
+    {
+        textMaSach.setText(String.valueOf(id));
+    }
     private void confirmActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_confirmActionPerformed
     {//GEN-HEADEREND:event_confirmActionPerformed
         try
         {
             Sach sach = getModelId();
-
-            Sach sachtim = sachDAO.findSachById(sach.getBookID());
-            if (sachtim == null)
+            if(sach != null)
             {
-                if (sachDAO.add(sach) > 0)
+                Sach sachtim = sachDAO.findSachById(sach.getBookID());
+                if (sachtim == null)
                 {
-                }
-            } else
-            {
-                if (sachDAO.update(sach) > 0)
+                    if (sachDAO.add(sach) > 0)
+                    {
+                    }
+                } else
                 {
+                    if (sachDAO.update(sach) > 0)
+                    {
+                    }
                 }
+                bm.resetDataTable();
+                bm.fillDataTable();
             }
-            bm.resetDataTable();
-            bm.fillDataTable();
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "null infomation");
+            }
 
         } catch (Exception e)
         {

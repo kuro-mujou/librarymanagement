@@ -504,9 +504,7 @@ public class Transaction extends javax.swing.JPanel
             int transID = transCRUD.getIdTransactions() + 1;
             String startDay = now.toString();
             String endDay = future.toString();
-            transactions T = new transactions(transID, startDay, endDay, bookquantity, bookID, userID);
-            docgia.setStatus(DocGia.ReaderStatus.CURRENT_BORROWING);
-            readerCRUD.update(docgia);
+            transactions T = new transactions(transID, startDay, endDay, bookquantity, bookID, userID,"BORROWING");
             int checked = transCRUD.addNewTransaction(T);
             if (checked > 0)
             {
@@ -514,6 +512,9 @@ public class Transaction extends javax.swing.JPanel
                 IDtransactions.setText(String.valueOf(tras.getTransactionID()));
                 sach.setQuantity(sach.getQuantity()-bookquantity);
                 sachCRUD.update(sach);
+                docgia.setStatus(DocGia.ReaderStatus.CURRENT_BORROWING);
+                docgia.setTransactionID(tras.getTransactionID());
+                readerCRUD.update(docgia);
                 JOptionPane.showMessageDialog(this, "SUCCESS");
             }
         } catch (Exception e)

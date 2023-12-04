@@ -1,6 +1,7 @@
 package UIClass;
 
 import databaseClass.NhanVien;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -62,6 +63,13 @@ public class LoginPanel extends JPanel
         jLabel2.setText("Password");
 
         PasswordTXT.setLabelText("password");
+        PasswordTXT.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                PasswordTXTKeyPressed(evt);
+            }
+        });
 
         loginBtn.setBackground(new java.awt.Color(0, 0, 0));
         loginBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -117,6 +125,18 @@ public class LoginPanel extends JPanel
     private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
         login();
     }//GEN-LAST:event_loginBtnMouseClicked
+
+    private void PasswordTXTKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_PasswordTXTKeyPressed
+    {//GEN-HEADEREND:event_PasswordTXTKeyPressed
+        try {
+            int keycode = evt.getKeyCode();
+            if(keycode == KeyEvent.VK_ENTER)
+            {
+                login();
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_PasswordTXTKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

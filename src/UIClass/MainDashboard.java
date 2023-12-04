@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 
 public class MainDashboard extends javax.swing.JFrame
 {
-    Transaction transaction = new Transaction();
     ReaderManagement readerManagement = new ReaderManagement();
     BookManagement bookManagement = new BookManagement();
     TransactionHistory transactionManagement = new TransactionHistory();
@@ -44,6 +43,7 @@ public class MainDashboard extends javax.swing.JFrame
                         readerManagement.checkStatus();
                         break;
                     case 3:
+                        Transaction transaction = new Transaction();
                         updatePanel(transaction);
                         break;
                     case 4:

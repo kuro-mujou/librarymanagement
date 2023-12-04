@@ -7,10 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Ther
- */
 public class SachCRUD
 {
     Connection conn = null;
@@ -67,7 +63,6 @@ public class SachCRUD
             sttm.setInt(7, sach.getBookID());
             if (sttm.executeUpdate() > 0)
             {
-
                 return 1;
             }
 
@@ -99,14 +94,12 @@ public class SachCRUD
 
     public List<Sach> getAll()
     {
-
         List<Sach> ls = new ArrayList<>();
         ResultSet rs = null;
         Statement sttm = null;
         try
         {
-
-            String sSQL = "select book.bookID,nameBook,description,type,author,quantity,yearRelease from book ";
+            String sSQL = "select book.bookID,nameBook,description,type,author,quantity,yearRelease from book";
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.createStatement();
             rs = sttm.executeQuery(sSQL);
@@ -121,9 +114,7 @@ public class SachCRUD
                 sach.setQuantity(rs.getInt(6));
                 sach.setYearRelease(rs.getInt(7));
                 ls.add(sach);
-
             }
-
         } catch (Exception e)
         {
         } finally
@@ -166,6 +157,7 @@ public class SachCRUD
 
         } catch (Exception e)
         {
+            return null;
         } finally
         {
             try
@@ -240,5 +232,27 @@ public class SachCRUD
         {
         }
         return -1;
+    }
+    public int getMaxBookID()
+    {
+        ResultSet rs = null;
+        Statement sttm = null;
+        try
+        {
+            String sSQL = "SELECT MAX(bookID) as 'maxID' FROM book";
+
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.createStatement();
+            rs = sttm.executeQuery(sSQL);
+            int id = 1;
+            while (rs.next())
+            {
+                id = rs.getInt("maxID");
+            }
+            return id;
+        } catch (Exception e)
+        {
+            return -1;
+        }
     }
 }

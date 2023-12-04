@@ -10,6 +10,7 @@ public class DocGia
     private String gender;
     private int age;
     public ReaderStatus status;
+    private int transactionID;
 
     public static enum ReaderStatus
     {
@@ -28,6 +29,17 @@ public class DocGia
         this.gender = gender;
         this.age = age;
         this.status = status;
+    }
+    public DocGia(int userID, String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status,int transactionID) {
+        this.userID = userID;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.adrress = adrress;
+        this.gender = gender;
+        this.age = age;
+        this.status = status;
+        this.transactionID = transactionID;
     }
 
     public DocGia(String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status) {
@@ -134,5 +146,15 @@ public class DocGia
     public void setStatus(ReaderStatus status)
     {
         this.status = status;
+    }
+
+    public int getTransactionID()
+    {
+        return transactionID;
+    }
+
+    public void setTransactionID(int transactionID)
+    {
+        this.transactionID = transactionID;
     }
 }

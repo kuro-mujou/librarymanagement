@@ -4,10 +4,12 @@ import UIClass.ReaderManagement;
 import databaseClass.DocGiaCRUD;
 import databaseClass.DocGia;
 import databaseClass.DocGia.ReaderStatus;
+import databaseClass.transactionsCRUD;
 
 public class ReaderDetail extends javax.swing.JFrame
 {
     private DocGiaCRUD docgiaDAO = new DocGiaCRUD();
+    private transactionsCRUD transCRUD = new transactionsCRUD();
     private int idUser = -1;
     private boolean isEditRequest;
     private ReaderManagement rd;
@@ -216,18 +218,17 @@ public class ReaderDetail extends javax.swing.JFrame
         try
         {
             DocGia docGia = getModelId();
-
             DocGia docgiatim = docgiaDAO.findReaderById(docGia.getUserID());
             if (docgiatim == null)
             {
-                if (docgiaDAO.add(docGia) > 0)
-                {
-                }
+                docgiaDAO.add(docGia);
             } else
             {
-                if (docgiaDAO.update(docGia) > 0)
-                {
-                }
+                docGia.setTransactionID(docgiatim.getTransactionID());
+                if(statusCombobx.getSelectedIndex()==0)
+                    docGia.setTransactionID(0);
+                docgiaDAO.update(docGia);
+                transCRUD.updateTransactionStatus(docgiatim.getTransactionID(), docGia.ENUM_TO_STATUS_TRANSACTION(docGia.getStatus()));
             }
             rd.resetDataTable();
             rd.fillDataTable();

@@ -1,6 +1,6 @@
-create database librarytesting
+create database librarymanagement
 go 
-use librarytesting
+use librarymanagement
 go
 create table book(
     bookID int primary key,
@@ -20,16 +20,18 @@ create table reader(
 	email nvarchar(255),
 	gender nvarchar(255) ,
 	age int,
-        status nvarchar(255)
+    status nvarchar(255),
+	currentTransactionID int
 )
 
 create table transactions(
     transactionID int primary key,
-        startDay int,
+        startDay nvarchar(255),
         endDay nvarchar(255),
         quantity nvarchar(255),
         bookid int FOREIGN KEY REFERENCES book (bookID),
-        userID int FOREIGN KEY REFERENCES reader(userID)
+        userID int FOREIGN KEY REFERENCES reader(userID),
+        transactionstatus nvarchar(255)
 )
 
 create table Users(
@@ -42,7 +44,7 @@ create table Users(
 	gender nvarchar(255) 
  )
 
- -- 
+-- 
 insert into book(bookID,nameBook,description,type,author,quantity,yearRelease)
     values (1,'book1','description1','type1','author1',10,2000)
 insert into book(bookID,nameBook,description,type,author,quantity,yearRelease)

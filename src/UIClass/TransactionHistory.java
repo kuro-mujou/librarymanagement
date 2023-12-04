@@ -8,8 +8,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Comparator;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 public final class TransactionHistory extends javax.swing.JPanel {
 
@@ -76,7 +78,7 @@ public final class TransactionHistory extends javax.swing.JPanel {
             },
             new String []
             {
-                "Transaction ID", "Start Day", "End Day", "Quantity", "Book ID", "User ID", "Status"
+                "ID", "Start Day", "End Day", "Quantity", "Book ID", "User ID", "Status"
             }
         )
         {
@@ -103,29 +105,24 @@ public final class TransactionHistory extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(val_searchTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 954, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(val_searchTrans, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(val_searchTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel1)
+                    .addComponent(val_searchTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -180,7 +177,7 @@ public final class TransactionHistory extends javax.swing.JPanel {
         dataRow[3] = b.getQuantity();
         dataRow[4] = b.getBookID();
         dataRow[5] = b.getUserID();
-        dataRow[6] = docgia.ENUM_TO_STATUS_TRANSACTION(docgia.getStatus());
+        dataRow[6] = b.getTransactionstatus();
         tbModel.addRow(dataRow);
     }
 
@@ -189,7 +186,6 @@ public final class TransactionHistory extends javax.swing.JPanel {
         DefaultTableModel tbModel = (DefaultTableModel) Table.getModel();
         tbModel.setRowCount(0);
         for (transactions b : trans.getAllTransactions()) {
-            DocGia docgia = readerCRUD.findReaderById(b.getUserID());
             Object dataRow[] = new Object[7];
             dataRow[0] = b.getTransactionID();
             dataRow[1] = b.getStartDay();
@@ -197,11 +193,10 @@ public final class TransactionHistory extends javax.swing.JPanel {
             dataRow[3] = b.getQuantity();
             dataRow[4] = b.getBookID();
             dataRow[5] = b.getUserID();
-            dataRow[6] = docgia.ENUM_TO_STATUS_TRANSACTION(docgia.getStatus());
+            dataRow[6] = b.getTransactionstatus();
             tbModel.addRow(dataRow);
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.Button SearchTable;
     private swing.TableWhite Table;

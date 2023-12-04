@@ -86,6 +86,9 @@
       <Properties>
         <Property name="labelText" type="java.lang.String" value="password"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="PasswordTXTKeyPressed"/>
+      </Events>
     </Component>
     <Component class="swing.Button" name="loginBtn">
       <Properties>

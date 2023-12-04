@@ -131,7 +131,7 @@ public class BookManagement extends javax.swing.JPanel
             }
         });
 
-        textFind.setLabelText("Search");
+        textFind.setLabelText("Search by book ID");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/SearchIcon.png"))); // NOI18N
 
@@ -259,20 +259,32 @@ public class BookManagement extends javax.swing.JPanel
 
     private void SearchTableActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SearchTableActionPerformed
     {//GEN-HEADEREND:event_SearchTableActionPerformed
-        idSach = Integer.parseInt(textFind.getText());
-        Sach sach = sachDAO.findSachById(idSach);
-        if (sach != null)
+        
+        try
         {
-            resetDataTable();
-            fillOneDataTable(sach);
-        } else
+            idSach = Integer.parseInt(textFind.getText());
+            Sach sach = sachDAO.findSachById(idSach);
+            if (sach != null)
+            {
+                resetDataTable();
+                fillOneDataTable(sach);
+            } else
+            {
+                resetDataTable();
+                fillDataTable();
+                JOptionPane.showMessageDialog(this, "khong tim duoc gia tri can tim");
+            }
+        } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+            JOptionPane.showMessageDialog(this, "vui long nhap ma sach");
         }
+        
     }//GEN-LAST:event_SearchTableActionPerformed
 
     private void AddTableItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTableItemActionPerformed
+        
         BookDetail addbook = new BookDetail(true, this);
+        addbook.newbook(sachDAO.getMaxBookID()+1);
         addbook.setVisible(true);
     }//GEN-LAST:event_AddTableItemActionPerformed
 

@@ -36,6 +36,7 @@ public class transactionsCRUD
                 trans.setQuantity(rs.getInt("quantity"));
                 trans.setBookID(rs.getInt("bookid"));
                 trans.setUserID(rs.getInt("userID"));
+                trans.setTransactionstatus(rs.getString("transactionstatus"));
                 transactions.add(trans);
             }
             return transactions;
@@ -61,27 +62,27 @@ public class transactionsCRUD
     {
         ResultSet rs = null;
         Statement sttm = null;
-        transactions trans = new transactions();
         try
         {
             String sSQL = "SELECT * FROM transactions WHERE transactionID = " + id;
-
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.createStatement();
             rs = sttm.executeQuery(sSQL);
             while (rs.next())
             {
+                transactions trans = new transactions();
                 trans.setTransactionID(rs.getInt("transactionID"));
                 trans.setStartDay(rs.getString("startDay"));
                 trans.setEndDay(rs.getString("endDay"));
                 trans.setQuantity(rs.getInt("quantity"));
                 trans.setBookID(rs.getInt("bookid"));
                 trans.setUserID(rs.getInt("userID"));
+                trans.setTransactionstatus(rs.getString("transactionstatus"));
+                return trans;
             }
-            return trans;
         } catch (Exception e)
         {
-            return trans;
+            return null;
         } finally
         {
 
@@ -95,6 +96,7 @@ public class transactionsCRUD
                 Logger.getLogger(transactionsCRUD.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return null;
     }
 
     public int getIdTransactions()
@@ -137,7 +139,7 @@ public class transactionsCRUD
     {
         try
         {
-            String sSQL = "INSERT INTO transactions VALUES(?,?,?,?,?,?)";
+            String sSQL = "INSERT INTO transactions VALUES(?,?,?,?,?,?,?)";
 
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.prepareStatement(sSQL);
@@ -147,7 +149,7 @@ public class transactionsCRUD
             sttm.setInt(4, transactions.getQuantity());
             sttm.setInt(5, transactions.getBookID());
             sttm.setInt(6, transactions.getUserID());
-
+            sttm.setString(7, transactions.getTransactionstatus());
             if (sttm.executeUpdate() > 0)
             {
                 return 1;
@@ -199,10 +201,12 @@ public class transactionsCRUD
                 trans.setQuantity(rs.getInt("quantity"));
                 trans.setBookID(rs.getInt("bookid"));
                 trans.setUserID(rs.getInt("userID"));
+                trans.setTransactionstatus(rs.getString("transactionstatus"));
                 return trans;
             }
         } catch (Exception e)
         {
+            return null;
         } finally
         {
 
@@ -217,5 +221,28 @@ public class transactionsCRUD
             }
         }
         return null;
+    }
+    public int updateTransactionStatus(int id,String status)
+    {
+        try
+        {
+            String sSQL = "update dbo.transactions \n"
+                    + "set transactionstatus=?\n"
+                    + "where transactionID=?";
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.prepareStatement(sSQL);
+            sttm.setString(1, status);
+            sttm.setInt(2, id);
+            if (sttm.executeUpdate() > 0)
+            {
+                return 1;
+            }
+//            sttm.close();
+//            conn.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

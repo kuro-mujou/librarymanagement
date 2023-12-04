@@ -44,8 +44,6 @@ public class ReaderManagement extends javax.swing.JPanel
                 {
                     update.setModel(docGia);
                     update.setVisible(true);
-                    fillDataTable();
-                    update.setVisible(true);
                 } else
                 {
                     JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
@@ -136,7 +134,7 @@ public class ReaderManagement extends javax.swing.JPanel
             }
         });
 
-        textFind.setLabelText("Search");
+        textFind.setLabelText("Search by Reader ID");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/SearchIcon.png"))); // NOI18N
 
@@ -174,13 +172,13 @@ public class ReaderManagement extends javax.swing.JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFind, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
+                .addComponent(textFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 954, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(AddTableItem, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -224,9 +222,37 @@ public class ReaderManagement extends javax.swing.JPanel
 
     public void checkStatus()
     {
+        try
+        {
+            for (DocGia b : docgiaDAO.getAll())
+            {
+                transactions t = transCRUD.getTransactionsByID(b.getTransactionID());
+                if (t != null)
+                {
+                    LocalDate now = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate endDate = LocalDate.parse(t.getEndDay(), formatter);
+
+                    if (now.compareTo(endDate) > 0)
+                    {
+                        b.setStatus(DocGia.ReaderStatus.CURRENT_NOT_RETURN);
+                        docgiaDAO.update(b);
+                        transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
+                    }
+                }
+//                else
+//                {
+//                    b.setStatus(DocGia.ReaderStatus.READY_TO_BORROW);
+//                    docgiaDAO.update(b);
+//                    transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
+//                }
+            }
+        } catch (Exception e)
+        {
+        }
         for (DocGia b : docgiaDAO.getAll())
         {
-            transactions t = transCRUD.getTransactionsByReaderID(b.getUserID());
+            transactions t = transCRUD.getTransactionsByID(b.getTransactionID());
             if (t != null)
             {
                 LocalDate now = LocalDate.now();
@@ -237,6 +263,7 @@ public class ReaderManagement extends javax.swing.JPanel
                 {
                     b.setStatus(DocGia.ReaderStatus.CURRENT_NOT_RETURN);
                     docgiaDAO.update(b);
+                    transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
                 }
             }
         }
@@ -285,21 +312,30 @@ public class ReaderManagement extends javax.swing.JPanel
     }
     private void AddTableItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddTableItemActionPerformed
     {//GEN-HEADEREND:event_AddTableItemActionPerformed
-        new ReaderDetail(true, this).setVisible(true);
+        ReaderDetail readerDetail = new ReaderDetail(true, this);
+        readerDetail.setVisible(true);
+        
     }//GEN-LAST:event_AddTableItemActionPerformed
 
     private void SearchTableActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SearchTableActionPerformed
     {//GEN-HEADEREND:event_SearchTableActionPerformed
-        // TODO add your handling code here:
-        idUser = Integer.parseInt(textFind.getText());
-        DocGia docGia = docgiaDAO.findReaderById(idUser);
-        if (docGia != null)
+        try
         {
-            resetDataTable();
-            fillOneDataTable(docGia);
-        } else
+            idUser = Integer.parseInt(textFind.getText());
+            DocGia docGia = docgiaDAO.findReaderById(idUser);
+            if (docGia != null)
+            {
+                resetDataTable();
+                fillOneDataTable(docGia);
+            } else
+            {
+                JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+                resetDataTable();
+                fillDataTable();
+            }
+        } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+            JOptionPane.showMessageDialog(Table, "vui long nhap reader ID");
         }
     }//GEN-LAST:event_SearchTableActionPerformed
 

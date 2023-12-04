@@ -83,7 +83,7 @@
     </Component>
     <Component class="swing.TextField" name="textFind">
       <Properties>
-        <Property name="labelText" type="java.lang.String" value="Search"/>
+        <Property name="labelText" type="java.lang.String" value="Search by book ID"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

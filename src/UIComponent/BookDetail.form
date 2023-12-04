@@ -203,6 +203,9 @@
           </Properties>
         </Component>
         <Component class="swing.TextField_noLabel" name="textMaSach">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="swing.TextField_noLabel" name="textTenSach">
         </Component>
