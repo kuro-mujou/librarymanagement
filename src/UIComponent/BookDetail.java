@@ -196,7 +196,7 @@ public class BookDetail extends javax.swing.JFrame
         b.setBookID(Integer.parseInt(textMaSach.getText()));
         b.setNameBook(textTenSach.getText());
         b.setDescription(textGhiChu.getText());
-        b.setWriting(textTacGia.getText());
+        b.setAuthor(textTacGia.getText());
         b.setType(textTheLoai.getText());
         b.setQuantity(Integer.parseInt(textSoLuong.getText()));
         b.setYearRelease(Integer.parseInt(textNamXuatBan.getText()));
@@ -211,7 +211,7 @@ public class BookDetail extends javax.swing.JFrame
             b.setBookID(Integer.parseInt(textMaSach.getText()));
             b.setNameBook(textTenSach.getText());
             b.setDescription(textGhiChu.getText());
-            b.setWriting(textTacGia.getText());
+            b.setAuthor(textTacGia.getText());
             b.setType(textTheLoai.getText());
             b.setQuantity(Integer.parseInt(textSoLuong.getText()));
             b.setYearRelease(Integer.parseInt(textNamXuatBan.getText()));
@@ -230,7 +230,7 @@ public class BookDetail extends javax.swing.JFrame
         textGhiChu.setText(b.getDescription());
         textNamXuatBan.setText(String.valueOf(b.getYearRelease()));
         textSoLuong.setText(String.valueOf(b.getQuantity()));
-        textTacGia.setText(b.getWriting());
+        textTacGia.setText(b.getAuthor());
         textTheLoai.setText(b.getType());
     }
     public void newbook(int id)

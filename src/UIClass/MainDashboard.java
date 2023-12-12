@@ -4,6 +4,7 @@ import event.EventMenuSelected;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 public class MainDashboard extends javax.swing.JFrame
 {
@@ -11,19 +12,21 @@ public class MainDashboard extends javax.swing.JFrame
     BookManagement bookManagement = new BookManagement();
     TransactionHistory transactionManagement = new TransactionHistory();
     Setting setting = new Setting(this);
-
+    
+    private JFrame frame = MainDashboard.this;
     public MainDashboard()
     {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
+        Menu.initMoveFrame(frame);
+        winButton1.initEvent(frame, background1);
+        transactionManagement.checkTransactionStatus();
     }
-
     private void init()
     {
         ImageIcon icon = new ImageIcon("src/Image/StackOfBooksIcon.png");
         setIconImage(icon.getImage());
-        winButton1.initEvent(this, background1);
         Menu.addEventMenuSelect(new EventMenuSelected()
         {
             @Override
@@ -38,9 +41,10 @@ public class MainDashboard extends javax.swing.JFrame
                         break;
                     case 2:
                         updatePanel(readerManagement);
+                        transactionManagement.checkTransactionStatus();
                         readerManagement.resetDataTable();
                         readerManagement.fillDataTable();
-                        readerManagement.checkStatus();
+                        
                         break;
                     case 3:
                         Transaction transaction = new Transaction();
@@ -48,6 +52,7 @@ public class MainDashboard extends javax.swing.JFrame
                         break;
                     case 4:
                         updatePanel(transactionManagement);
+                        transactionManagement.checkTransactionStatus();
                         transactionManagement.resetDataTable();
                         transactionManagement.fillDataTable();
                         break;
@@ -79,7 +84,6 @@ public class MainDashboard extends javax.swing.JFrame
         background1 = new swing.Background();
         Menu = new UIComponent.Menu();
         MainPanel = new javax.swing.JPanel();
-        HeaderPanel = new javax.swing.JPanel();
         winButton1 = new win_button.WinButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,41 +95,23 @@ public class MainDashboard extends javax.swing.JFrame
         MainPanel.setOpaque(false);
         MainPanel.setLayout(new java.awt.BorderLayout());
 
-        HeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
-        HeaderPanel.setOpaque(false);
-
-        javax.swing.GroupLayout HeaderPanelLayout = new javax.swing.GroupLayout(HeaderPanel);
-        HeaderPanel.setLayout(HeaderPanelLayout);
-        HeaderPanelLayout.setHorizontalGroup(
-            HeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HeaderPanelLayout.createSequentialGroup()
-                .addGap(0, 1032, Short.MAX_VALUE)
-                .addComponent(winButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        HeaderPanelLayout.setVerticalGroup(
-            HeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HeaderPanelLayout.createSequentialGroup()
-                .addComponent(winButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 22, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(HeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1079, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(winButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(HeaderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(winButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -149,7 +135,6 @@ public class MainDashboard extends javax.swing.JFrame
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel HeaderPanel;
     private javax.swing.JPanel MainPanel;
     private UIComponent.Menu Menu;
     private swing.Background background1;

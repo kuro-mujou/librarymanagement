@@ -10,7 +10,7 @@ public class Setting extends javax.swing.JPanel
 {
     private MainDashboard main;
     NhanVienCRUD nhanVienCRUD = new NhanVienCRUD();
-    NhanVien nhanVien = new NhanVien();
+    NhanVien nhanVien = nhanVienCRUD.findUser();
     public Setting(MainDashboard mainDashboard)
     {
         initComponents();
@@ -29,7 +29,6 @@ public class Setting extends javax.swing.JPanel
     }
     private void initData()
     {
-        nhanVien = nhanVienCRUD.findUser();
         txtUserAddress.setText(nhanVien.getDiaChi());
         txtUserGender.setText(nhanVien.getGioiTinh());
         txtUserID.setText(String.valueOf(nhanVien.getMaNhanVien()));

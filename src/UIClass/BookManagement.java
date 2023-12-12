@@ -226,7 +226,7 @@ public class BookManagement extends javax.swing.JPanel
             Object dataRow[] = new Object[7];
             dataRow[0] = b.getBookID();
             dataRow[1] = b.getNameBook();
-            dataRow[2] = b.getWriting();
+            dataRow[2] = b.getAuthor();
             dataRow[3] = b.getQuantity();
             dataRow[4] = b.getType();
             dataRow[5] = b.getYearRelease();
@@ -242,7 +242,7 @@ public class BookManagement extends javax.swing.JPanel
         Object dataRow[] = new Object[7];
         dataRow[0] = b.getBookID();
         dataRow[1] = b.getNameBook();
-        dataRow[2] = b.getWriting();
+        dataRow[2] = b.getAuthor();
         dataRow[3] = b.getQuantity();
         dataRow[4] = b.getType();
         dataRow[5] = b.getYearRelease();

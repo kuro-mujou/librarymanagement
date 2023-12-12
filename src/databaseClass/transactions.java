@@ -8,20 +8,20 @@ public class transactions {
     String endDay;
     int quantity;
     int bookID;
-    int userID;
+    int readerID;
     String transactionstatus;
     
 
     public transactions() {
 
     }
-    public transactions(int transactionId, String startDay, String endDay, int quantity, int bookid, int userID,String transactionstatus) {
+    public transactions(int transactionId, String startDay, String endDay, int quantity, int bookid, int readerID,String transactionstatus) {
         this.transactionID = transactionId;
         this.startDay = startDay;
         this.endDay = endDay;
         this.quantity = quantity;
         this.bookID = bookid;
-        this.userID = userID;
+        this.readerID = readerID;
         this.transactionstatus = transactionstatus;
     }
 
@@ -65,12 +65,12 @@ public class transactions {
         this.bookID = bookid;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getReaderID() {
+        return readerID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setReaderID(int readerID) {
+        this.readerID = readerID;
     }
     
     public String getTransactionstatus()

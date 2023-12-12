@@ -79,7 +79,7 @@ public class TableWhite extends JTable
         scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, panel);
         scroll.getViewport().setBackground(new Color(255, 255, 255));
         scroll.setBorder(BorderFactory.createLineBorder(new Color(232, 232, 232), 2));
-
+        scroll.getVerticalScrollBar().setUnitIncrement(20);
     }
 
     private class TableHeader extends DefaultTableCellRenderer

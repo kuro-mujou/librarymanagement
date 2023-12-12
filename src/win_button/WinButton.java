@@ -2,63 +2,58 @@ package win_button;
 
 import swing.Background;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class WinButton extends javax.swing.JPanel {
-
+    
+    
     public WinButton() {
         initComponents();
         setOpaque(false);
+        
     }
 
-    public void initEvent(JFrame fram, Background panel) {
-        cmdClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                System.exit(0);
-            }
+    public void initEvent(JFrame frame, Background panel) {
+        cmdClose.addActionListener((ActionEvent ae) ->
+        {
+            System.exit(0);
         });
-        cmdMi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                fram.setState(JFrame.ICONIFIED);
-            }
+        cmdMi.addActionListener((ActionEvent ae) ->
+        {
+            frame.setState(JFrame.ICONIFIED);
         });
-        cmdRe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (fram.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-                    panel.setRound(20);
-                    fram.setExtendedState(JFrame.NORMAL);
-                } else {
-                    panel.setRound(0);
-                    fram.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                }
+        cmdRe.addActionListener((ActionEvent ae) ->
+        {
+            if (frame.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                panel.setRound(20);
+                frame.setExtendedState(JFrame.NORMAL);
+            } else {
+                panel.setRound(0);
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
         });
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
-        cmdClose = new win_button.Button();
         cmdMi = new win_button.Button();
         cmdRe = new win_button.Button();
-
-        cmdClose.setBackground(new java.awt.Color(240, 61, 61));
+        cmdClose = new win_button.Button();
 
         cmdMi.setBackground(new java.awt.Color(227, 226, 68));
 
         cmdRe.setBackground(new java.awt.Color(67, 199, 51));
+
+        cmdClose.setBackground(new java.awt.Color(240, 61, 61));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(cmdMi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdRe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -69,12 +64,12 @@ public class WinButton extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(3, 3, 3)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmdClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdMi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdRe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

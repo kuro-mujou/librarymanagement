@@ -435,7 +435,7 @@ public class Transaction extends javax.swing.JPanel
             }
         } catch (Exception e)
         {
-
+            
         }
     }//GEN-LAST:event_MinusActionPerformed
 
@@ -456,7 +456,7 @@ public class Transaction extends javax.swing.JPanel
             }
         } catch (Exception e)
         {
-
+            
         }
     }//GEN-LAST:event_PlusActionPerformed
 
@@ -464,19 +464,30 @@ public class Transaction extends javax.swing.JPanel
     {//GEN-HEADEREND:event_SearchReaderBtnActionPerformed
         try
         {
-            docgia = readerCRUD.findReaderById(Integer.parseInt(SearchReaderTXT.getText()));
+            docgia = readerCRUD.findReaderByReaderId(Integer.parseInt(SearchReaderTXT.getText()));
             if (docgia != null)
             {
-                if (docgia.getStatus() == DocGia.ReaderStatus.READY_TO_BORROW)
+                ReadName.setText(docgia.getName());
+                Phone.setText(docgia.getPhone());
+                switch (docgia.getStatus())
                 {
-                    ReadName.setText(docgia.getName());
-                    Phone.setText(docgia.getPhone());
-                    Status.setText("READY");
-                    readerInfoPanel.setVisible(true);
-                    bookInfoPanel.setVisible(true);
-                } else
-                {
-                    JOptionPane.showMessageDialog(this, "Reader nay dang co sach chua tra");
+                    case READY_TO_BORROW ->
+                    {
+                        Status.setText("READY");
+                        readerInfoPanel.setVisible(true);
+                        bookInfoPanel.setVisible(true);
+                    }
+                    case CURRENT_BORROWING ->
+                    {
+                        Status.setText("BORROWING");
+                        readerInfoPanel.setVisible(true);
+                        bookInfoPanel.setVisible(true);
+                    }
+                    default ->
+                    {
+                        Status.setText("NOT RETURNED");
+                        JOptionPane.showMessageDialog(this, "Reader nay dang co sach chua tra");
+                    }
                 }
             } else
             {
@@ -500,25 +511,23 @@ public class Transaction extends javax.swing.JPanel
 
             int bookquantity = Integer.parseInt(quantity.getText());
             int bookID = Integer.parseInt(textMaSach.getText());
-            int userID = Integer.parseInt(SearchReaderTXT.getText());
+            int readerID = Integer.parseInt(SearchReaderTXT.getText());
             int transID = transCRUD.getIdTransactions() + 1;
             String startDay = now.toString();
             String endDay = future.toString();
-            transactions T = new transactions(transID, startDay, endDay, bookquantity, bookID, userID,"BORROWING");
+            transactions T = new transactions(transID, startDay, endDay, bookquantity, bookID, readerID, "BORROWING");
             int checked = transCRUD.addNewTransaction(T);
             if (checked > 0)
             {
                 transactions tras = transCRUD.getTransactionsByID(transID);
                 IDtransactions.setText(String.valueOf(tras.getTransactionID()));
-                sach.setQuantity(sach.getQuantity()-bookquantity);
+                sach.setQuantity(sach.getQuantity() - bookquantity);
                 sachCRUD.update(sach);
-                docgia.setStatus(DocGia.ReaderStatus.CURRENT_BORROWING);
-                docgia.setTransactionID(tras.getTransactionID());
-                readerCRUD.update(docgia);
                 JOptionPane.showMessageDialog(this, "SUCCESS");
             }
         } catch (Exception e)
         {
+            JOptionPane.showMessageDialog(this, "something got bug...");
         }
     }//GEN-LAST:event_ConfirmBorrowActionPerformed
 
@@ -527,26 +536,28 @@ public class Transaction extends javax.swing.JPanel
         try
         {
             sach = sachCRUD.findSachByName(SearchBookTXT.getText());
-            if(sach!=null)
+            if (sach != null)
             {
-                if(Integer.valueOf(sach.getQuantity())> 0)
+                if (Integer.valueOf(sach.getQuantity()) > 0)
                 {
                     textMaSach.setText(String.valueOf(sach.getBookID()));
                     textTenSach.setText(sach.getNameBook());
                     textTheLoai.setText(sach.getType());
-                    textTacGia.setText(sach.getWriting());
+                    textTacGia.setText(sach.getAuthor());
                     textSoLuong.setText(String.valueOf(sach.getQuantity()));
                     textNamXuatBan.setText(String.valueOf(sach.getYearRelease()));
                     textGhiChu.setText(sach.getDescription());
-                }
-                else
+                } else
+                {
                     JOptionPane.showMessageDialog(this, "this book is out of stock");
-            }
-            else
+                }
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "No book found!");
+            }
         } catch (Exception e)
         {
-            
+            JOptionPane.showMessageDialog(this, "No book found!");
         }
 
     }//GEN-LAST:event_SearchBookBtnActionPerformed

@@ -6,12 +6,12 @@ import databaseClass.transactions;
 import databaseClass.transactionsCRUD;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 
 public final class TransactionHistory extends javax.swing.JPanel {
 
@@ -41,6 +41,27 @@ public final class TransactionHistory extends javax.swing.JPanel {
                 }
             }
         });
+    }
+    public void checkTransactionStatus()
+    {
+        for (transactions b : transactionCRUD.getTransactionsByStatus("BORROWING"))
+        {
+            if (b != null)
+            {
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate endDate = LocalDate.parse(b.getEndDay(), formatter);
+                if (now.compareTo(endDate) > 0)
+                {
+                    transactionCRUD.updateTransactionStatus(b.getTransactionID(),"NOT RETURNED");
+                    readerCRUD.updateTransactionStatus(b.getReaderID(), 3);
+                }
+                else
+                {
+                    readerCRUD.updateTransactionStatus(b.getReaderID(), 2);
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -169,14 +190,14 @@ public final class TransactionHistory extends javax.swing.JPanel {
     public void fillOneDataTable(transactions b) {
         DefaultTableModel tbModel = (DefaultTableModel) Table.getModel();
         tbModel.setRowCount(0);
-        DocGia docgia = readerCRUD.findReaderById(b.getUserID());
+        DocGia docgia = readerCRUD.findReaderByReaderId(b.getReaderID());
         Object dataRow[] = new Object[7];
         dataRow[0] = b.getTransactionID();
         dataRow[1] = b.getStartDay();
         dataRow[2] = b.getEndDay();
         dataRow[3] = b.getQuantity();
         dataRow[4] = b.getBookID();
-        dataRow[5] = b.getUserID();
+        dataRow[5] = b.getReaderID();
         dataRow[6] = b.getTransactionstatus();
         tbModel.addRow(dataRow);
     }
@@ -192,7 +213,7 @@ public final class TransactionHistory extends javax.swing.JPanel {
             dataRow[2] = b.getEndDay();
             dataRow[3] = b.getQuantity();
             dataRow[4] = b.getBookID();
-            dataRow[5] = b.getUserID();
+            dataRow[5] = b.getReaderID();
             dataRow[6] = b.getTransactionstatus();
             tbModel.addRow(dataRow);
         }

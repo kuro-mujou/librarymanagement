@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,11 +15,11 @@ public class transactionsCRUD
     static Connection conn = null;
     static PreparedStatement sttm = null;
 
-    public List<transactions> getAllTransactions()
+    public ArrayList<transactions> getAllTransactions()
     {
         ResultSet rs = null;
         Statement sttm = null;
-        List<transactions> transactions = new ArrayList();
+        ArrayList<transactions> transactions = new ArrayList();
         try
         {
             String sSQL = "SELECT * FROM transactions";
@@ -34,11 +34,12 @@ public class transactionsCRUD
                 trans.setStartDay(rs.getString("startDay"));
                 trans.setEndDay(rs.getString("endDay"));
                 trans.setQuantity(rs.getInt("quantity"));
-                trans.setBookID(rs.getInt("bookid"));
-                trans.setUserID(rs.getInt("userID"));
+                trans.setBookID(rs.getInt("bookID"));
+                trans.setReaderID(rs.getInt("readerID"));
                 trans.setTransactionstatus(rs.getString("transactionstatus"));
                 transactions.add(trans);
             }
+            Collections.reverse(transactions);
             return transactions;
         } catch (Exception e)
         {
@@ -75,8 +76,8 @@ public class transactionsCRUD
                 trans.setStartDay(rs.getString("startDay"));
                 trans.setEndDay(rs.getString("endDay"));
                 trans.setQuantity(rs.getInt("quantity"));
-                trans.setBookID(rs.getInt("bookid"));
-                trans.setUserID(rs.getInt("userID"));
+                trans.setBookID(rs.getInt("bookID"));
+                trans.setReaderID(rs.getInt("readerID"));
                 trans.setTransactionstatus(rs.getString("transactionstatus"));
                 return trans;
             }
@@ -148,7 +149,7 @@ public class transactionsCRUD
             sttm.setString(3, transactions.getEndDay());
             sttm.setInt(4, transactions.getQuantity());
             sttm.setInt(5, transactions.getBookID());
-            sttm.setInt(6, transactions.getUserID());
+            sttm.setInt(6, transactions.getReaderID());
             sttm.setString(7, transactions.getTransactionstatus());
             if (sttm.executeUpdate() > 0)
             {
@@ -162,33 +163,27 @@ public class transactionsCRUD
         return -1;
     }
 
-    public int delete(int id)
+    public void deleteTransactionsByReaderID(int id)
     {
         try
         {
-            String sSQL = "delete transactions where transactionID= " + id;
+            String sSQL = "delete transactions where readerID= " + id;
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.prepareStatement(sSQL);
-
-            if (sttm.executeUpdate() > 0)
-            {
-                return 1;
-            }
-
+            sttm.executeUpdate();
         } catch (Exception e)
         {
         }
-        return -1;
     }
 
-    public transactions getTransactionsByReaderID(int id)
+    public ArrayList<transactions> getTransactionsByReaderID(int id)
     {
         ResultSet rs = null;
         Statement sttm = null;
         try
         {
-            
-            String sSQL = "SELECT * FROM transactions WHERE userID = " + id;
+            ArrayList<transactions> transactions = new ArrayList();
+            String sSQL = "SELECT * FROM transactions WHERE readerID = " + id;
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.createStatement();
             rs = sttm.executeQuery(sSQL);
@@ -199,17 +194,18 @@ public class transactionsCRUD
                 trans.setStartDay(rs.getString("startDay"));
                 trans.setEndDay(rs.getString("endDay"));
                 trans.setQuantity(rs.getInt("quantity"));
-                trans.setBookID(rs.getInt("bookid"));
-                trans.setUserID(rs.getInt("userID"));
+                trans.setBookID(rs.getInt("bookID"));
+                trans.setReaderID(rs.getInt("readerID"));
                 trans.setTransactionstatus(rs.getString("transactionstatus"));
-                return trans;
+                transactions.add(trans);
             }
+            Collections.reverse(transactions);
+            return transactions;
         } catch (Exception e)
         {
             return null;
         } finally
         {
-
             try
             {
                 rs.close();
@@ -220,7 +216,6 @@ public class transactionsCRUD
                 Logger.getLogger(transactionsCRUD.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
     }
     public int updateTransactionStatus(int id,String status)
     {
@@ -237,12 +232,148 @@ public class transactionsCRUD
             {
                 return 1;
             }
-//            sttm.close();
-//            conn.close();
         } catch (Exception e)
         {
             e.printStackTrace();
         }
         return -1;
+    }
+    public void updateTransactionDetail(int transid,int bookid, int quantity)
+    {
+        try
+        {
+            String sSQL = "update dbo.transactions \n"
+                    + "set bookID=?,quantity=?\n"
+                    + "where transactionID=?";
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.prepareStatement(sSQL);
+            sttm.setInt(1, bookid);
+            sttm.setInt(2, quantity);
+            sttm.setInt(3, transid);
+            sttm.executeUpdate();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public int getTransactionsStatus(int id)
+    {
+        ResultSet rs = null;
+        Statement sttm = null;
+        try
+        {
+            ArrayList<String> status = new ArrayList<>();
+            String sSQL = "SELECT transactionstatus FROM transactions WHERE readerID = " + id;
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.createStatement();
+            rs = sttm.executeQuery(sSQL);
+            while (rs.next())
+            {
+                status.add(rs.getString("transactionstatus"));
+            }
+            if(status.contains("NOT RETURNED"))
+                return 3;
+            else if(status.contains("BORROWING"))
+                return 2;
+            else if(status.contains("RETURNED"))
+                return 1;
+            else
+                return 0;
+            
+        } catch (Exception e)
+        {
+            return 0;
+        } finally
+        {
+            try
+            {
+                rs.close();
+                sttm.close();
+                conn.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(transactionsCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    public ArrayList<transactions> getTransactionsByStatus(String status)
+    {
+        ResultSet rs = null;
+        Statement sttm = null;
+        try
+        {
+            ArrayList<transactions> transactions = new ArrayList();
+            String sSQL = "SELECT * FROM transactions WHERE transactionstatus = '" + status +"'";
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.createStatement();
+            rs = sttm.executeQuery(sSQL);
+            while (rs.next())
+            {
+                transactions trans = new transactions();
+                trans.setTransactionID(rs.getInt("transactionID"));
+                trans.setStartDay(rs.getString("startDay"));
+                trans.setEndDay(rs.getString("endDay"));
+                trans.setQuantity(rs.getInt("quantity"));
+                trans.setBookID(rs.getInt("bookID"));
+                trans.setReaderID(rs.getInt("readerID"));
+                trans.setTransactionstatus(rs.getString("transactionstatus"));
+                transactions.add(trans);
+            }
+            return transactions;
+        } catch (Exception e)
+        {
+            return null;
+        } finally
+        {
+            try
+            {
+                rs.close();
+                sttm.close();
+                conn.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(transactionsCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    public ArrayList<transactions> getTransactionsByBook(int bookID, int readerID)
+    {
+        ResultSet rs = null;
+        Statement sttm = null;
+        try
+        {
+            ArrayList<transactions> transactions = new ArrayList();
+            String sSQL = "SELECT * FROM transactions WHERE bookID = " + bookID + "AND readerID =" + readerID;
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.createStatement();
+            rs = sttm.executeQuery(sSQL);
+            while (rs.next())
+            {
+                transactions trans = new transactions();
+                trans.setTransactionID(rs.getInt("transactionID"));
+                trans.setStartDay(rs.getString("startDay"));
+                trans.setEndDay(rs.getString("endDay"));
+                trans.setQuantity(rs.getInt("quantity"));
+                trans.setBookID(rs.getInt("bookID"));
+                trans.setReaderID(rs.getInt("readerID"));
+                trans.setTransactionstatus(rs.getString("transactionstatus"));
+                transactions.add(trans);
+            }
+            return transactions;
+        } catch (Exception e)
+        {
+            return null;
+        } finally
+        {
+            try
+            {
+                rs.close();
+                sttm.close();
+                conn.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(transactionsCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

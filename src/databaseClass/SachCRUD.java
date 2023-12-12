@@ -29,7 +29,7 @@ public class SachCRUD
             sttm.setString(2, sach.getNameBook());
             sttm.setString(3, sach.getDescription());
             sttm.setString(4, sach.getType());
-            sttm.setString(5, sach.getWriting());
+            sttm.setString(5, sach.getAuthor());
             sttm.setInt(6, sach.getQuantity());
             sttm.setInt(7, sach.getYearRelease());
             if (sttm.executeUpdate() > 0)
@@ -56,7 +56,7 @@ public class SachCRUD
             sttm.setString(1, sach.getNameBook());
             sttm.setString(2, sach.getDescription());
             sttm.setString(3, sach.getType());
-            sttm.setString(4, sach.getWriting());
+            sttm.setString(4, sach.getAuthor());
             sttm.setInt(5, sach.getQuantity());
             sttm.setInt(6, sach.getYearRelease());
 
@@ -110,7 +110,7 @@ public class SachCRUD
                 sach.setNameBook(rs.getString(2));
                 sach.setDescription(rs.getString(3));
                 sach.setType(rs.getString(4));
-                sach.setWriting(rs.getString(5));
+                sach.setAuthor(rs.getString(5));
                 sach.setQuantity(rs.getInt(6));
                 sach.setYearRelease(rs.getInt(7));
                 ls.add(sach);
@@ -138,7 +138,6 @@ public class SachCRUD
         try
         {
             String sSQL = "select bookID,nameBook,description,type,author,quantity,yearRelease from book where bookID=" + MaSach;
-
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.createStatement();
             rs = sttm.executeQuery(sSQL);
@@ -149,7 +148,7 @@ public class SachCRUD
                 sach.setNameBook(rs.getString(2));
                 sach.setDescription(rs.getString(3));
                 sach.setType(rs.getString(4));
-                sach.setWriting(rs.getString(5));
+                sach.setAuthor(rs.getString(5));
                 sach.setQuantity(rs.getInt(6));
                 sach.setYearRelease(rs.getInt(7));
                 return sach;
@@ -190,7 +189,7 @@ public class SachCRUD
                 sach.setNameBook(rs.getString(2));
                 sach.setDescription(rs.getString(3));
                 sach.setType(rs.getString(4));
-                sach.setWriting(rs.getString(5));
+                sach.setAuthor(rs.getString(5));
                 sach.setQuantity(rs.getInt(6));
                 sach.setYearRelease(rs.getInt(7));
                 return sach;
@@ -216,7 +215,7 @@ public class SachCRUD
     {
         try
         {
-            String sSQL = "update book set quantity = quantity - ?  where bookID = ?";
+            String sSQL = "update book set quantity =?  where bookID = ?";
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.prepareStatement(sSQL);
             sttm.setInt(1, quantity);

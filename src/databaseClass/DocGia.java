@@ -2,7 +2,8 @@ package databaseClass;
 
 public class DocGia
 {
-    private int userID;
+    private int ID;
+    private int readerID;
     private String name;
     private String phone;
     private String email;
@@ -10,18 +11,19 @@ public class DocGia
     private String gender;
     private int age;
     public ReaderStatus status;
-    private int transactionID;
 
     public static enum ReaderStatus
     {
         READY_TO_BORROW, CURRENT_BORROWING, CURRENT_NOT_RETURN
     };
 
-    public DocGia() {
+    public DocGia()
+    {
     }
 
-    public DocGia(int userID, String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status) {
-        this.userID = userID;
+    public DocGia(int userID, String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status)
+    {
+        this.readerID = userID;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -30,19 +32,10 @@ public class DocGia
         this.age = age;
         this.status = status;
     }
-    public DocGia(int userID, String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status,int transactionID) {
-        this.userID = userID;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.adrress = adrress;
-        this.gender = gender;
-        this.age = age;
-        this.status = status;
-        this.transactionID = transactionID;
-    }
-
-    public DocGia(String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status) {
+    public DocGia(int ID,int userID, String name, String phone, String email, String adrress, String gender, int age, ReaderStatus status)
+    {
+        this.ID = ID;
+        this.readerID = userID;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -52,63 +45,77 @@ public class DocGia
         this.status = status;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserID()
+    {
+        return readerID;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public String getPhone() {
+    public String getPhone()
+    {
         return phone;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public String getAdrress() {
+    public String getAdrress()
+    {
         return adrress;
     }
 
-    public String getGender() {
+    public String getGender()
+    {
         return gender;
     }
 
-    public int getAge() {
+    public int getAge()
+    {
         return age;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserID(int userID)
+    {
+        this.readerID = userID;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone)
+    {
         this.phone = phone;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public void setAdrress(String adrress) {
+    public void setAdrress(String adrress)
+    {
         this.adrress = adrress;
     }
 
-    public void setGender(String gender) {
+    public void setGender(String gender)
+    {
         this.gender = gender;
     }
 
-    public void setAge(int age) {
+    public void setAge(int age)
+    {
         this.age = age;
     }
-    
-    public String ENUM_TO_STATUS(ReaderStatus status)
+
+    public String ENUM_TO_STRING(ReaderStatus status)
     {
         return switch (status)
         {
@@ -122,8 +129,8 @@ public class DocGia
                 "INVALID REQUEST";
         };
     }
-    
-    public String ENUM_TO_STATUS_TRANSACTION(ReaderStatus status)
+
+    public String ENUM_TO_TRANSACTION(ReaderStatus status)
     {
         return switch (status)
         {
@@ -137,7 +144,17 @@ public class DocGia
                 "INVALID REQUEST";
         };
     }
-    
+
+    public int getID()
+    {
+        return ID;
+    }
+
+    public void setID(int ID)
+    {
+        this.ID = ID;
+    }
+
     public ReaderStatus getStatus()
     {
         return this.status;
@@ -148,13 +165,14 @@ public class DocGia
         this.status = status;
     }
 
-    public int getTransactionID()
+    public void update(DocGia docGia)
     {
-        return transactionID;
-    }
-
-    public void setTransactionID(int transactionID)
-    {
-        this.transactionID = transactionID;
+        this.readerID = docGia.readerID;
+        this.name = docGia.name;
+        this.phone = docGia.phone;
+        this.email = docGia.email;
+        this.adrress = docGia.adrress;
+        this.gender = docGia.gender;
+        this.age = docGia.age;
     }
 }

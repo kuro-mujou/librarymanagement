@@ -3,13 +3,10 @@ package UIClass;
 import UIComponent.ReaderDetail;
 import databaseClass.DocGiaCRUD;
 import databaseClass.DocGia;
-import databaseClass.transactions;
 import databaseClass.transactionsCRUD;
 import event.TableActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.JOptionPane;
@@ -37,13 +34,13 @@ public class ReaderManagement extends javax.swing.JPanel
             @Override
             public void onEdit(int row)
             {
-                ReaderDetail update = new ReaderDetail(true, ReaderManagement.this);
+                ReaderDetail readerDetail = new ReaderDetail(true, false, ReaderManagement.this);
                 idUser = (Integer) Table.getValueAt(row, 0);
-                DocGia docGia = docgiaDAO.findReaderById(idUser);
+                DocGia docGia = docgiaDAO.findReaderByReaderId(idUser);
                 if (docGia != null)
                 {
-                    update.setModel(docGia);
-                    update.setVisible(true);
+                    readerDetail.setModel(docGia);
+                    readerDetail.setVisible(true);
                 } else
                 {
                     JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
@@ -59,22 +56,39 @@ public class ReaderManagement extends javax.swing.JPanel
                 }
                 DefaultTableModel model = (DefaultTableModel) Table.getModel();
                 idUser = (Integer) Table.getValueAt(row, 0);
-                if (docgiaDAO.delete(idUser) > 0)
+                int status = transCRUD.getTransactionsStatus(idUser);
+
+                switch (status)
                 {
-                    model.removeRow(row);
+                    case 0:
+                        docgiaDAO.delete(idUser);
+                        model.removeRow(row);
+                        break;
+                    case 1:
+                        if(JOptionPane.showConfirmDialog(Table, "delete this reader will delete all relative transactions, confirm to delete?") == 0)
+                        {    
+                            docgiaDAO.delete(idUser);
+                            transCRUD.deleteTransactionsByReaderID(idUser);
+                            model.removeRow(row);
+                        } 
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(Table, "this reader aren't return all books, can't delete");
+                        break;
                 }
             }
 
             @Override
             public void onView(int row)
             {
-                ReaderDetail a = new ReaderDetail(false, ReaderManagement.this);
-                a.setVisible(true);
+                ReaderDetail readerDetail = new ReaderDetail(false, false, ReaderManagement.this);
                 idUser = (Integer) Table.getValueAt(row, 0);
-                DocGia docGia = docgiaDAO.findReaderById(idUser);
+                DocGia docGia = docgiaDAO.findReaderByReaderId(idUser);
                 if (docGia != null)
                 {
-                    a.setModel(docGia);
+                    readerDetail.setModel(docGia);
+                    checkStatus(idUser);
+                    readerDetail.setVisible(true);
                 } else
                 {
                     JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
@@ -220,52 +234,14 @@ public class ReaderManagement extends javax.swing.JPanel
         }
     }
 
-    public void checkStatus()
+    public void checkStatus(int id)
     {
         try
         {
-            for (DocGia b : docgiaDAO.getAll())
-            {
-                transactions t = transCRUD.getTransactionsByID(b.getTransactionID());
-                if (t != null)
-                {
-                    LocalDate now = LocalDate.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate endDate = LocalDate.parse(t.getEndDay(), formatter);
-
-                    if (now.compareTo(endDate) > 0)
-                    {
-                        b.setStatus(DocGia.ReaderStatus.CURRENT_NOT_RETURN);
-                        docgiaDAO.update(b);
-                        transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
-                    }
-                }
-//                else
-//                {
-//                    b.setStatus(DocGia.ReaderStatus.READY_TO_BORROW);
-//                    docgiaDAO.update(b);
-//                    transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
-//                }
-            }
+            int status = transCRUD.getTransactionsStatus(id);
+            docgiaDAO.updateTransactionStatus(id, status);
         } catch (Exception e)
         {
-        }
-        for (DocGia b : docgiaDAO.getAll())
-        {
-            transactions t = transCRUD.getTransactionsByID(b.getTransactionID());
-            if (t != null)
-            {
-                LocalDate now = LocalDate.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate endDate = LocalDate.parse(t.getEndDay(), formatter);
-
-                if (now.compareTo(endDate) > 0)
-                {
-                    b.setStatus(DocGia.ReaderStatus.CURRENT_NOT_RETURN);
-                    docgiaDAO.update(b);
-                    transCRUD.updateTransactionStatus(t.getTransactionID(),"NOT RETURNED");
-                }
-            }
         }
     }
 
@@ -283,7 +259,7 @@ public class ReaderManagement extends javax.swing.JPanel
             dataRow[4] = b.getEmail();
             dataRow[5] = b.getGender();
             dataRow[6] = b.getAge();
-            dataRow[7] = b.ENUM_TO_STATUS(b.getStatus());
+            dataRow[7] = b.ENUM_TO_STRING(b.getStatus());
             tbModel.addRow(dataRow);
         }
     }
@@ -300,7 +276,7 @@ public class ReaderManagement extends javax.swing.JPanel
         dataRow[4] = b.getEmail();
         dataRow[5] = b.getGender();
         dataRow[6] = b.getAge();
-        dataRow[7] = b.ENUM_TO_STATUS(b.getStatus());
+        dataRow[7] = b.ENUM_TO_STRING(b.getStatus());
         tbModel.addRow(dataRow);
     }
 
@@ -312,9 +288,8 @@ public class ReaderManagement extends javax.swing.JPanel
     }
     private void AddTableItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddTableItemActionPerformed
     {//GEN-HEADEREND:event_AddTableItemActionPerformed
-        ReaderDetail readerDetail = new ReaderDetail(true, this);
+        ReaderDetail readerDetail = new ReaderDetail(true, true, this);
         readerDetail.setVisible(true);
-        
     }//GEN-LAST:event_AddTableItemActionPerformed
 
     private void SearchTableActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SearchTableActionPerformed
@@ -322,7 +297,7 @@ public class ReaderManagement extends javax.swing.JPanel
         try
         {
             idUser = Integer.parseInt(textFind.getText());
-            DocGia docGia = docgiaDAO.findReaderById(idUser);
+            DocGia docGia = docgiaDAO.findReaderByReaderId(idUser);
             if (docGia != null)
             {
                 resetDataTable();

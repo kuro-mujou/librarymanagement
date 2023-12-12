@@ -12,7 +12,6 @@ public class NhanVien
 
     public NhanVien()
     {
-        
     }
     
     public NhanVien(int MaNhanVien, String ten, String SoDienThoai, String diaChi, String email, String password, String gioiTinh)
@@ -95,4 +94,11 @@ public class NhanVien
     {
         this.gioiTinh = gioiTinh;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.MaNhanVien+this.ten+this.diaChi+this.gioiTinh+this.email+this.password;
+    }
+    
 }

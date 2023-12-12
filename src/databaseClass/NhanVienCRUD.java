@@ -9,7 +9,33 @@ public class NhanVienCRUD
 {
     Connection conn = null;
     PreparedStatement sttm = null;
+    
+    public int add(NhanVien nhanVien)
+    {
+        try
+        {
+            String sSQL = "insert into dbo.Users(libID,name,phone,address,email,password,gender)\n"
+                    + "values (?,?,?,?,?,?,?);";
 
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.prepareStatement(sSQL);
+            sttm.setInt(1, nhanVien.getMaNhanVien());
+            sttm.setString(2, nhanVien.getTen());
+            sttm.setString(3, nhanVien.getSoDienThoai());
+            sttm.setString(4, nhanVien.getDiaChi());
+            sttm.setString(5, nhanVien.getEmail());
+            sttm.setString(6, nhanVien.getPassword());
+            sttm.setString(7, nhanVien.getGioiTinh());
+            if (sttm.executeUpdate() > 0)
+            {
+                return 1;
+            }
+
+        } catch (Exception e)
+        {
+        }
+        return -1;
+    }
     public int updateBasicInfo(NhanVien user)
     {
         try
@@ -101,9 +127,9 @@ public class NhanVienCRUD
                 user.setGioiTinh(rs.getString(7));
                 return user;
             }
-
         } catch (Exception e)
         {
+            return null;
         } finally
         {
             try
