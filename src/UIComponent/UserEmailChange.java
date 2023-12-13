@@ -3,6 +3,8 @@ package UIComponent;
 import UIClass.Setting;
 import databaseClass.NhanVien;
 import databaseClass.NhanVienCRUD;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 public class UserEmailChange extends javax.swing.JFrame
@@ -16,6 +18,14 @@ public class UserEmailChange extends javax.swing.JFrame
         initComponents();
         this.nhanvien = nhanvien;
         this.setting = setting;
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosed(WindowEvent e)
+            {
+                setting.updateUI(true);
+            }
+            
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -177,21 +187,21 @@ public class UserEmailChange extends javax.swing.JFrame
                 {
                     nhanvien.setEmail(newEmail);
                     nhanVienCRUD.updateEmail(nhanvien);
-                    JOptionPane.showMessageDialog(this, "success");
+                    JOptionPane.showMessageDialog(null, "success");
                     setting.updateUI(true);
                     this.dispose();
                 } else
                 {
-                    JOptionPane.showMessageDialog(this, "new email and confirm email must be the same!");
+                    JOptionPane.showMessageDialog(null, "new email and confirm email must be the same!");
                 }
             } else
             {
-                JOptionPane.showMessageDialog(this, "you enter wrong password");
+                JOptionPane.showMessageDialog(null, "you enter wrong password");
             }
 
         } else
         {
-            JOptionPane.showMessageDialog(this, "you enter wrong email");
+            JOptionPane.showMessageDialog(null, "you enter wrong email");
         }
     }//GEN-LAST:event_ConfirmActionPerformed
 

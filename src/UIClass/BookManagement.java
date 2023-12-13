@@ -43,7 +43,7 @@ public class BookManagement extends javax.swing.JPanel
                     update.setVisible(true);
                 } else
                 {
-                    JOptionPane.showMessageDialog(Table, "khong co sach nay trong database");
+                    JOptionPane.showMessageDialog(null, "khong co sach nay trong database");
                 }
             }
 
@@ -74,7 +74,7 @@ public class BookManagement extends javax.swing.JPanel
                     a.setVisible(true);
                 } else
                 {
-                    JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+                    JOptionPane.showMessageDialog(null, "khong tim duoc gia tri can tim");
                 }
             }
         };
@@ -169,9 +169,9 @@ public class BookManagement extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFind, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
+                .addComponent(textFind, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(SearchTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,11 +272,11 @@ public class BookManagement extends javax.swing.JPanel
             {
                 resetDataTable();
                 fillDataTable();
-                JOptionPane.showMessageDialog(this, "khong tim duoc gia tri can tim");
+                JOptionPane.showMessageDialog(null, "khong tim duoc gia tri can tim");
             }
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(this, "vui long nhap ma sach");
+            JOptionPane.showMessageDialog(null, "vui long nhap ma sach");
         }
         
     }//GEN-LAST:event_SearchTableActionPerformed

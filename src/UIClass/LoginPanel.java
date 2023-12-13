@@ -26,19 +26,19 @@ public class LoginPanel extends JPanel
         {
             if(password.equals(pass))
             {
-                JOptionPane.showMessageDialog(this, "login successful");
+                JOptionPane.showMessageDialog(null, "login successful");
                 main.dispose();
                 MainDashboard mainDashboard = new MainDashboard();
                 mainDashboard.setVisible(true);
             }
             else 
             {
-                JOptionPane.showMessageDialog(this, "wrong password");
+                JOptionPane.showMessageDialog(null, "wrong password");
             }
         }
         else 
         {
-            JOptionPane.showMessageDialog(this, "user not found");
+            JOptionPane.showMessageDialog(null, "user not found");
         }
     }
     @SuppressWarnings("unchecked")
@@ -123,9 +123,9 @@ public class LoginPanel extends JPanel
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
-//        login();
-        MainDashboard mainDashboard = new MainDashboard();
-        mainDashboard.setVisible(true);
+        login();
+//        MainDashboard mainDashboard = new MainDashboard();
+//        mainDashboard.setVisible(true);
     }//GEN-LAST:event_loginBtnMouseClicked
 
     private void PasswordTXTKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_PasswordTXTKeyPressed

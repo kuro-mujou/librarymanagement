@@ -431,7 +431,7 @@ public class Transaction extends javax.swing.JPanel
                 quantity.setText(String.valueOf(num));
             } else
             {
-                JOptionPane.showMessageDialog(this, "minimum quantity is 1");
+                JOptionPane.showMessageDialog(null, "minimum quantity is 1");
             }
         } catch (Exception e)
         {
@@ -452,7 +452,7 @@ public class Transaction extends javax.swing.JPanel
                 quantity.setText(String.valueOf(num));
             } else if (num == max)
             {
-                JOptionPane.showMessageDialog(this, "reach maximum quantity");
+                JOptionPane.showMessageDialog(null, "reach maximum quantity");
             }
         } catch (Exception e)
         {
@@ -486,16 +486,16 @@ public class Transaction extends javax.swing.JPanel
                     default ->
                     {
                         Status.setText("NOT RETURNED");
-                        JOptionPane.showMessageDialog(this, "Reader nay dang co sach chua tra");
+                        JOptionPane.showMessageDialog(null, "Reader nay dang co sach chua tra");
                     }
                 }
             } else
             {
-                JOptionPane.showMessageDialog(this, "No reader found!");
+                JOptionPane.showMessageDialog(null, "No reader found!");
             }
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(this, "No reader found!");
+            JOptionPane.showMessageDialog(null, "No reader found!");
         }
     }//GEN-LAST:event_SearchReaderBtnActionPerformed
 
@@ -523,11 +523,11 @@ public class Transaction extends javax.swing.JPanel
                 IDtransactions.setText(String.valueOf(tras.getTransactionID()));
                 sach.setQuantity(sach.getQuantity() - bookquantity);
                 sachCRUD.update(sach);
-                JOptionPane.showMessageDialog(this, "SUCCESS");
+                JOptionPane.showMessageDialog(null, "SUCCESS");
             }
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(this, "something got bug...");
+            JOptionPane.showMessageDialog(null, "something got bug...");
         }
     }//GEN-LAST:event_ConfirmBorrowActionPerformed
 
@@ -549,15 +549,15 @@ public class Transaction extends javax.swing.JPanel
                     textGhiChu.setText(sach.getDescription());
                 } else
                 {
-                    JOptionPane.showMessageDialog(this, "this book is out of stock");
+                    JOptionPane.showMessageDialog(null, "this book is out of stock");
                 }
             } else
             {
-                JOptionPane.showMessageDialog(this, "No book found!");
+                JOptionPane.showMessageDialog(null, "No book found!");
             }
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(this, "No book found!");
+            JOptionPane.showMessageDialog(null, "No book found!");
         }
 
     }//GEN-LAST:event_SearchBookBtnActionPerformed

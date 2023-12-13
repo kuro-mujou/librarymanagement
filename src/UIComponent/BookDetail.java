@@ -261,7 +261,7 @@ public class BookDetail extends javax.swing.JFrame
             }
             else
             {
-                JOptionPane.showMessageDialog(rootPane, "null infomation");
+                JOptionPane.showMessageDialog(null, "null infomation");
             }
 
         } catch (Exception e)

@@ -43,7 +43,7 @@ public class ReaderManagement extends javax.swing.JPanel
                     readerDetail.setVisible(true);
                 } else
                 {
-                    JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+                    JOptionPane.showMessageDialog(null, "khong tim duoc gia tri can tim");
                 }
             }
 
@@ -65,7 +65,7 @@ public class ReaderManagement extends javax.swing.JPanel
                         model.removeRow(row);
                         break;
                     case 1:
-                        if(JOptionPane.showConfirmDialog(Table, "delete this reader will delete all relative transactions, confirm to delete?") == 0)
+                        if(JOptionPane.showConfirmDialog(null, "delete this reader will delete all relative transactions, confirm to delete?") == 0)
                         {    
                             docgiaDAO.delete(idUser);
                             transCRUD.deleteTransactionsByReaderID(idUser);
@@ -73,7 +73,7 @@ public class ReaderManagement extends javax.swing.JPanel
                         } 
                         break;
                     default:
-                        JOptionPane.showMessageDialog(Table, "this reader aren't return all books, can't delete");
+                        JOptionPane.showMessageDialog(null, "this reader aren't returning all books, can't delete");
                         break;
                 }
             }
@@ -91,7 +91,7 @@ public class ReaderManagement extends javax.swing.JPanel
                     readerDetail.setVisible(true);
                 } else
                 {
-                    JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+                    JOptionPane.showMessageDialog(null, "khong tim duoc gia tri can tim");
                 }
             }
         };
@@ -304,13 +304,13 @@ public class ReaderManagement extends javax.swing.JPanel
                 fillOneDataTable(docGia);
             } else
             {
-                JOptionPane.showMessageDialog(Table, "khong tim duoc gia tri can tim");
+                JOptionPane.showMessageDialog(null, "khong tim duoc gia tri can tim");
                 resetDataTable();
                 fillDataTable();
             }
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(Table, "vui long nhap reader ID");
+            JOptionPane.showMessageDialog(null, "vui long nhap reader ID");
         }
     }//GEN-LAST:event_SearchTableActionPerformed
 

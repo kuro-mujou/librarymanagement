@@ -19,6 +19,7 @@ public class MainDashboard extends javax.swing.JFrame
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Menu.initMoveFrame(frame);
         winButton1.initEvent(frame, background1);
         transactionManagement.checkTransactionStatus();
@@ -66,6 +67,7 @@ public class MainDashboard extends javax.swing.JFrame
             }
 
         });
+        
     }
 
     private void updatePanel(JComponent com)

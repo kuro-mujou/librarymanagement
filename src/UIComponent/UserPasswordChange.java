@@ -3,6 +3,8 @@ package UIComponent;
 import UIClass.Setting;
 import databaseClass.NhanVien;
 import databaseClass.NhanVienCRUD;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 public class UserPasswordChange extends javax.swing.JFrame
@@ -15,6 +17,14 @@ public class UserPasswordChange extends javax.swing.JFrame
         initComponents();
         this.nhanvien = nhanvien;
         this.setting = setting;
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosed(WindowEvent e)
+            {
+                setting.updateUI(true);
+            }
+            
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -160,17 +170,17 @@ public class UserPasswordChange extends javax.swing.JFrame
             {
                 nhanvien.setPassword(newpass);
                 nhanVienCRUD.updatePassword(nhanvien);
-                JOptionPane.showMessageDialog(this, "success");
+                JOptionPane.showMessageDialog(null, "success");
                 setting.updateUI(true);
                 this.dispose();
             } else
             {
-                JOptionPane.showMessageDialog(this, "new password and confirm password must be the same!");
+                JOptionPane.showMessageDialog(null, "new password and confirm password must be the same!");
             }
                 
         } else
         {
-            JOptionPane.showMessageDialog(this, "old password wrong");
+            JOptionPane.showMessageDialog(null, "old password wrong");
         }
     }//GEN-LAST:event_ConfirmActionPerformed
 

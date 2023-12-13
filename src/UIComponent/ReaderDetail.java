@@ -41,6 +41,7 @@ public class ReaderDetail extends javax.swing.JFrame
         jScrollPane1.setVerticalScrollBar(new TableScrollbarCustom());
         jScrollPane1.setHorizontalScrollBar(new TableScrollbarCustom());
         jPanel2.setLayout(new BoxLayout(jPanel2, Y_AXIS));
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(25);
         initUI();
         this.addWindowListener(new WindowAdapter(){
             @Override
@@ -337,7 +338,7 @@ public class ReaderDetail extends javax.swing.JFrame
         } catch (Exception e)
         {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "input wrong");
+            JOptionPane.showMessageDialog(null, "input wrong");
         }
     }//GEN-LAST:event_confirmActionPerformed
 
@@ -355,7 +356,8 @@ public class ReaderDetail extends javax.swing.JFrame
             }
         } catch (Exception e)
         {
-
+            jPanel2.removeAll();
+            JOptionPane.showMessageDialog(null, "no book have same name on transaction list");
         }
 
 
