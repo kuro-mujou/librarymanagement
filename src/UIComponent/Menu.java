@@ -121,7 +121,10 @@ public class Menu extends javax.swing.JPanel
             @Override
             public void mouseDragged(MouseEvent e)
             {
-                frame.setLocation(e.getXOnScreen()-x, e.getYOnScreen()-y);
+                if (frame.getExtendedState() != JFrame.MAXIMIZED_BOTH)
+                {
+                    frame.setLocation(e.getXOnScreen()-x, e.getYOnScreen()-y);
+                }
             }
         });
     }

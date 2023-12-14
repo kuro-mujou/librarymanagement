@@ -347,19 +347,26 @@ public class transactionsCRUD
             conn = DatabaseConnect.getDBConnect();
             sttm = conn.createStatement();
             rs = sttm.executeQuery(sSQL);
-            while (rs.next())
+            if(rs.next())
             {
-                transactions trans = new transactions();
-                trans.setTransactionID(rs.getInt("transactionID"));
-                trans.setStartDay(rs.getString("startDay"));
-                trans.setEndDay(rs.getString("endDay"));
-                trans.setQuantity(rs.getInt("quantity"));
-                trans.setBookID(rs.getInt("bookID"));
-                trans.setReaderID(rs.getInt("readerID"));
-                trans.setTransactionstatus(rs.getString("transactionstatus"));
-                transactions.add(trans);
+                while (rs.next())
+                {
+                    transactions trans = new transactions();
+                    trans.setTransactionID(rs.getInt("transactionID"));
+                    trans.setStartDay(rs.getString("startDay"));
+                    trans.setEndDay(rs.getString("endDay"));
+                    trans.setQuantity(rs.getInt("quantity"));
+                    trans.setBookID(rs.getInt("bookID"));
+                    trans.setReaderID(rs.getInt("readerID"));
+                    trans.setTransactionstatus(rs.getString("transactionstatus"));
+                    transactions.add(trans);
+                }
+                return transactions;
+            }else
+            {
+                return null;
             }
-            return transactions;
+            
         } catch (Exception e)
         {
             return null;

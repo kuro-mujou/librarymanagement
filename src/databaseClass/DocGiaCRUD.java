@@ -1,5 +1,6 @@
 package databaseClass;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class DocGiaCRUD
 {
@@ -260,6 +262,31 @@ public class DocGiaCRUD
         {
             return -1;
         }
+    }
+    public boolean checkID(int newReaderID)
+    {
+        ResultSet rs = null;
+        Statement sttm = null;
+        try
+        {
+            String sSQL = "select readerID from reader";
+            conn = DatabaseConnect.getDBConnect();
+            sttm = conn.createStatement();
+            rs = sttm.executeQuery(sSQL);
+            ArrayList<Integer> readerID = new ArrayList<>();
+            while (rs.next())
+            {
+                readerID.add(rs.getInt("readerID"));
+            }
+            if(readerID.contains(newReaderID))
+                return false;
+            else
+                return true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
     public DocGia.ReaderStatus STRING_TO_ENUM(String readerstatus)
     {

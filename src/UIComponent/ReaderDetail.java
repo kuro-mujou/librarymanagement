@@ -73,7 +73,6 @@ public class ReaderDetail extends javax.swing.JFrame
         revalidate();
         repaint();
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
@@ -322,7 +321,10 @@ public class ReaderDetail extends javax.swing.JFrame
                 int id = docgiaDAO.getMaxID() +1;
                 docGia = getModel();
                 docGia.setID(id);
-                docgiaDAO.add(docGia);
+                if(docgiaDAO.checkID(docGia.getUserID()))
+                    docgiaDAO.add(docGia);
+                else
+                    JOptionPane.showMessageDialog(null, "new readerID is duplicate with other reader ID");
             }
             else
             {
@@ -352,25 +354,18 @@ public class ReaderDetail extends javax.swing.JFrame
                 bookCRUD = new SachCRUD();
                 int bookID = bookCRUD.findSachByName(bookName).getBookID();
                 int readerID = Integer.parseInt(textReaderID.getText());
-                listSearch(transCRUD.getTransactionsByBook(bookID, readerID));
+                transList = transCRUD.getTransactionsByBook(bookID, readerID);
+                listSearch(transList);
             }
         } catch (Exception e)
         {
-            jPanel2.removeAll();
-            JOptionPane.showMessageDialog(null, "no book have same name on transaction list");
+            
         }
-
-
     }//GEN-LAST:event_SearchTableActionPerformed
 
     private void resetlistActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_resetlistActionPerformed
     {//GEN-HEADEREND:event_resetlistActionPerformed
-        try
-        {
-            listTransaction(Integer.parseInt(textReaderID.getText()));
-        } catch (Exception e)
-        {
-        }
+        listTransaction(Integer.parseInt(textReaderID.getText()));
     }//GEN-LAST:event_resetlistActionPerformed
 
     public DocGia getModel()
@@ -420,11 +415,12 @@ public class ReaderDetail extends javax.swing.JFrame
 
     private void listSearch(ArrayList<transactions> translist)
     {
-        jPanel2.removeAll();
         if (translist != null)
         {
+            jPanel2.removeAll();
             for (transactions object : translist)
             {
+                
                 TransactionCard card = new TransactionCard(object,isEditRequest);
                 jPanel2.add(card);
                 revalidate();
@@ -432,7 +428,8 @@ public class ReaderDetail extends javax.swing.JFrame
             }
         } else
         {
-
+            JOptionPane.showMessageDialog(null, "no book have same name on transaction list");
+            listTransaction(Integer.parseInt(textReaderID.getText()));
         }
     }
 

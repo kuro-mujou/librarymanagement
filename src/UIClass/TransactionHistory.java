@@ -88,7 +88,7 @@ public final class TransactionHistory extends javax.swing.JPanel {
             }
         });
 
-        val_searchTrans.setLabelText("Search");
+        val_searchTrans.setLabelText("Search transaction by ID");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/SearchIcon.png"))); // NOI18N
 
@@ -170,15 +170,11 @@ public final class TransactionHistory extends javax.swing.JPanel {
     }
     private void SearchTableActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SearchTableActionPerformed
     {//GEN-HEADEREND:event_SearchTableActionPerformed
-        // TODO add your handling code here:
-        
         transactionsCRUD trans = new transactionsCRUD();
         int id = Integer.parseInt(val_searchTrans.getText());
         transactions transac = trans.getTransactionsByID(id);
-        
         resetDataTable();
         fillOneDataTable(transac);
-
     }//GEN-LAST:event_SearchTableActionPerformed
 
     public void resetDataTable() {
